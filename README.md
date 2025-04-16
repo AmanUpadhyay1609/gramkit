@@ -125,6 +125,95 @@ npm run build
 npm start
 ```
 
+## Docker Deployment
+
+### Using Docker Compose (Recommended)
+
+⚠️ **Important: Before Running Docker Compose**
+
+If you have MongoDB or Redis installed locally, you might encounter port conflicts as the Docker containers use the default ports:
+- MongoDB: Port 27017
+- Redis: Port 6379
+
+You might see errors like:
+```bash
+Error response from daemon: failed to set up container networking: driver failed programming external connectivity on endpoint grammy-mongo: failed to bind host port for 0.0.0.0:27017: address already in use
+```
+
+To resolve this, either:
+
+1. Stop local services before running docker-compose:
+```bash
+# For MongoDB
+sudo systemctl stop mongod.service
+
+# For Redis
+sudo systemctl stop redis-server
+```
+
+2. OR modify the ports in docker-compose.yml to use different port mappings:
+```yaml
+mongo:
+  ports:
+    - "27018:27017"  # Use 27018 instead of 27017
+
+redis:
+  ports:
+    - "6380:6379"    # Use 6380 instead of 6379
+```
+
+### Starting the Services
+
+Once you've handled any potential port conflicts:
+
+1. Build and start all services:
+```bash
+docker-compose up -d
+```
+
+2. View logs:
+```bash
+docker-compose logs -f bot
+```
+
+3. Stop all services:
+```bash
+docker-compose down
+```
+
+### Using Docker
+
+1. Build the image:
+```bash
+docker build -t grammy-bot .
+```
+
+2. Run the container:
+```bash
+docker run -d \
+  --name grammy-bot \
+  -p 3002:3002 \
+  -e BOT_TOKEN=your_bot_token \
+  -e BOT_USERNAME=your_bot_username \
+  -e REDIS_URL=redis://your-redis-host:6379 \
+  -e MONGO_URL=mongodb://your-mongo-host:27017/grammy-bot \
+  grammy-bot
+```
+
+### Environment Variables in Docker
+
+When using Docker, you can:
+1. Create a `.env` file and use `--env-file .env` flag
+2. Pass variables directly using `-e` flag
+3. Use environment variables from your system
+
+### Volumes
+
+The following volumes are created:
+- `redis-data`: Persists Redis data
+- `mongo-data`: Persists MongoDB data
+- `./logs`: Stores application logs
+
 ## Contributing
 
 1. Fork the repository

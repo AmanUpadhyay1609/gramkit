@@ -1,0 +1,54 @@
+# Version control
+.git
+.gitignore
+.gitattributes
+
+# Dependencies
+node_modules
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# Build output
+dist
+build
+coverage
+
+# Logs
+logs
+*.log
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Test files
+__tests__
+*.test.ts
+*.spec.ts
+
+# Documentation
+docs
+*.md
+
+# Development configs
+nodemon.json
+.eslintrc
+.prettierrc
+tsconfig.tsbuildinfo
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore

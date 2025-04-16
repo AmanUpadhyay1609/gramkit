@@ -1,8 +1,8 @@
 import { Composer } from "grammy";
 import { CustomContext } from "../context/CustomContext";
 import { logHandle } from "../helper/logger";
-import { handleMessageWithoutReply } from "../helper/handleMessageWithoutReply";
-import { handleMessageWithReply } from "../helper/handleMessageWithReply";
+import { handleMessageWithoutReply } from "./handleMessageWithoutReply";
+import { handleMessageWithReply } from "./handleMessageWithReply";
 
 const composer = new Composer<CustomContext>();
 
