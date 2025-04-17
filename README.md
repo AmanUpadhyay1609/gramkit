@@ -225,3 +225,79 @@ The following volumes are created:
 ## License
 
 This project is licensed under the ISC License.
+
+## Developer's Guide: Core Bot Interactions
+
+When developing with this template, there are three main types of interactions you'll handle:
+
+### 1. Commands (`src/bot/features/welcome.ts`)
+Commands are messages that start with "/" (e.g., /start, /help). Handle these in `welcome.ts`:
+
+```typescript
+feature.command("start", logHandle("command-start"), async (ctx) => {
+  ctx.api.sendMessage(ctx.chat.id, "Welcome message");
+});
+
+// Add more commands as needed:
+feature.command("help", logHandle("command-help"), async (ctx) => {
+  ctx.api.sendMessage(ctx.chat.id, "Help message");
+});
+```
+
+Don't forget to register new commands in `src/bot/helper/createMenu.ts` if you want them visible in Telegram's command menu.
+
+### 2. Button Clicks (`src/bot/features/unhandled.ts`)
+When users click inline keyboard buttons, handle the callbacks in `unhandled.ts`:
+
+```typescript
+feature
+  .filter((ctx) => ctx.callbackQuery?.data === "button_id")
+  .on("callback_query", async (ctx) => {
+    // Handle button click
+    ctx.api.sendMessage(ctx.chat.id, "Button clicked!");
+  });
+```
+
+### 3. Message Handling
+Messages from users are handled in two ways:
+
+#### a. Regular Messages (`src/bot/features/handleMessageWithoutReply.ts`)
+For normal text messages:
+```typescript
+export const handleMessageWithoutReply = async (ctx: any) => {
+  let text = ctx.message.text;
+  // Add your logic here
+  // Example: AI processing, command parsing, etc.
+};
+```
+
+#### b. Reply Messages (`src/bot/features/handleMessageWithReply.ts`)
+For messages sent in reply to bot's messages (force reply):
+```typescript
+export const handleMessageWithReply = async (ctx: any) => {
+  let text = ctx.message.text;
+  // Handle replies to specific bot questions
+  // Example: Form filling, multi-step processes
+};
+```
+
+### Development Flow
+1. Identify the type of interaction you want to handle
+2. Go to the corresponding file:
+   - Commands → `welcome.ts`
+   - Button clicks → `unhandled.ts`
+   - Messages → `handleMessageWithReply.ts` or `handleMessageWithoutReply.ts`
+3. Add your logic using the Grammy.js API
+4. Test your changes
+
+### Example Use Cases
+- Multi-step registration process
+- Interactive menus
+- Form filling
+- AI-powered conversations
+- Data collection and processing
+- Integration with external APIs
+- Custom keyboard layouts
+- Media handling
+
+The architecture is designed to be extensible - you can build complex features while maintaining clean, organized code. The sky's the limit - from simple command responses to complex conversational flows, everything is possible with this structure.
