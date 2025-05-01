@@ -26,8 +26,8 @@ A production-ready Telegram bot starter template built with Grammy.js, featuring
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/grammy-bot-setup.git
-cd grammy-bot-setup
+git clone https://github.com/AmanUpadhyay1609/gramkit
+cd gramkit
 ```
 
 2. Install dependencies:
